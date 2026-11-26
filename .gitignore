@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.venv/
+.venv-*/
+.pytest_cache/
+.ruff_cache/
+
+# Secrets and local credentials (NEVER commit these)
+.env
+.env.*
+!.env.example
+client_secret*.json
+token.json
+quota.json
+.youtube-mcp/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
