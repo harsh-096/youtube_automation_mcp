@@ -3,7 +3,7 @@
 from collections import defaultdict
 from datetime import date, timedelta
 
-from youtube_upload_mcp.server import READ_ONLY_ANNOTATIONS, auth, mcp
+from youtube_upload_mcp.runtime import READ_ONLY_ANNOTATIONS, auth, mcp
 from youtube_upload_mcp.utils.validators import ValidationError, validate_youtube_id
 
 

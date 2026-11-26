@@ -1,8 +1,10 @@
 """Tests for MCP tool behavior, safety guardrails, and annotations."""
 
 import asyncio
+import runpy
 from unittest.mock import MagicMock, patch
 
+from youtube_upload_mcp.runtime import mcp as runtime_mcp
 from youtube_upload_mcp.server import mcp
 
 
@@ -23,6 +25,12 @@ class TestToolAnnotations:
         assert by_name["youtube_get_channel"].annotations.readOnlyHint is True
         assert by_name["youtube_analytics_overview"].annotations.readOnlyHint is True
         assert by_name["youtube_upload_video"].annotations.readOnlyHint is False
+
+    def test_running_server_as_main_registers_all_tools(self):
+        with patch.object(runtime_mcp, "run"):
+            ns = runpy.run_module("youtube_upload_mcp.server", run_name="__main__")
+        tools = asyncio.run(ns["mcp"].list_tools())
+        assert len(tools) >= 43
 
 
 class TestPublishingSafety:

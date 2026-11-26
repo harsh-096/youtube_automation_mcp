@@ -1,6 +1,6 @@
 """Playlist management tools."""
 
-from youtube_upload_mcp.server import (
+from youtube_upload_mcp.runtime import (
     DESTRUCTIVE_ANNOTATIONS,
     IDEMPOTENT_WRITE_ANNOTATIONS,
     READ_ONLY_ANNOTATIONS,

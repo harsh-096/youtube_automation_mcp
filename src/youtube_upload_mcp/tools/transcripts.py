@@ -1,6 +1,6 @@
 """Transcript and caption tools."""
 
-from youtube_upload_mcp.server import READ_ONLY_ANNOTATIONS, auth, mcp, quota
+from youtube_upload_mcp.runtime import READ_ONLY_ANNOTATIONS, auth, mcp, quota
 from youtube_upload_mcp.utils.validators import ValidationError, validate_youtube_id
 
 

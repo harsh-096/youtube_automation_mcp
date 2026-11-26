@@ -2,7 +2,7 @@
 
 import urllib.request
 
-from youtube_upload_mcp.server import READ_ONLY_ANNOTATIONS, WRITE_ANNOTATIONS, auth, mcp
+from youtube_upload_mcp.runtime import READ_ONLY_ANNOTATIONS, WRITE_ANNOTATIONS, auth, mcp
 from youtube_upload_mcp.utils.validators import (
     ValidationError,
     validate_googleapis_download_url,

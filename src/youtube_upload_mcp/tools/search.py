@@ -4,7 +4,7 @@ import json
 import urllib.parse
 import urllib.request
 
-from youtube_upload_mcp.server import READ_ONLY_ANNOTATIONS, auth, mcp, quota
+from youtube_upload_mcp.runtime import READ_ONLY_ANNOTATIONS, auth, mcp, quota
 from youtube_upload_mcp.utils.formatting import format_video_summary
 from youtube_upload_mcp.utils.validators import ValidationError, validate_youtube_id
 

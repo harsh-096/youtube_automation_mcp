@@ -1,6 +1,6 @@
 """Comment tools: list, post, reply, and delete comments."""
 
-from youtube_upload_mcp.server import (
+from youtube_upload_mcp.runtime import (
     DESTRUCTIVE_ANNOTATIONS,
     READ_ONLY_ANNOTATIONS,
     WRITE_ANNOTATIONS,

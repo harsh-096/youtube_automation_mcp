@@ -2,7 +2,7 @@
 
 from googleapiclient.http import MediaFileUpload
 
-from youtube_upload_mcp.server import (
+from youtube_upload_mcp.runtime import (
     DESTRUCTIVE_ANNOTATIONS,
     IDEMPOTENT_WRITE_ANNOTATIONS,
     WRITE_ANNOTATIONS,
