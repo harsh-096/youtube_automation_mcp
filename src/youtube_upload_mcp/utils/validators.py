@@ -1,17 +1,54 @@
 """Input and security validators for YouTube MCP tools."""
 
 import ipaddress
+import json
 import re
 from pathlib import Path
 from urllib.parse import urlparse
 
 _ID_PATTERN = re.compile(r"^[A-Za-z0-9_.\-]{1,128}$")
+_ACCOUNT_PATTERN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.\-]{0,63}$")
 _VALID_PRIVACY = frozenset({"private", "public", "unlisted"})
 _ALLOWED_REPORTING_HOSTS = frozenset({"youtubereporting.googleapis.com"})
 
 
 class ValidationError(ValueError):
     """Raised when tool input fails safety or format validation."""
+
+
+def validate_account_name(name: str) -> str:
+    """Validate an account profile name to prevent path traversal."""
+    cleaned = (name or "").strip()
+    if not cleaned or ".." in cleaned or not _ACCOUNT_PATTERN.match(cleaned):
+        raise ValidationError(
+            "Invalid account name: use 1-64 alphanumeric, '_', '-', or '.' characters "
+            "(starting with a letter or digit, no '..')."
+        )
+    return cleaned
+
+
+def validate_client_secret_file(file_path: str) -> Path:
+    """Validate that a path points to a readable Google OAuth client_secret.json file."""
+    if not file_path or not file_path.strip():
+        raise ValidationError("client_secret_path must not be empty.")
+
+    resolved = Path(file_path).expanduser().resolve()
+    if not resolved.exists():
+        raise ValidationError(f"client_secret.json not found: {resolved}")
+    if not resolved.is_file():
+        raise ValidationError(f"Path is not a regular file: {resolved}")
+
+    try:
+        payload = json.loads(resolved.read_text(encoding="utf-8"))
+    except Exception as e:
+        raise ValidationError(f"Invalid JSON in client_secret file: {e}") from e
+
+    if not isinstance(payload, dict) or ("installed" not in payload and "web" not in payload):
+        raise ValidationError(
+            "File does not look like a Google OAuth client_secret.json "
+            "(expected 'installed' or 'web' key)."
+        )
+    return resolved
 
 
 def validate_youtube_id(value: str, label: str = "id") -> str:

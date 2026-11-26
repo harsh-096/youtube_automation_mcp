@@ -11,9 +11,10 @@ Built from the ground up with guardrails for AI-assisted channel management:
 - **Private-by-Default Publishing:** `youtube_upload_video` and `youtube_create_playlist` default to `privacy_status="private"`.
 - **SSRF & Token-Leak Protection:** `youtube_reporting_download` strictly enforces `https://*.googleapis.com` URLs (including across HTTP redirects) so OAuth Bearer tokens cannot be sent to untrusted hosts.
 - **Scoped OAuth Profiles:** Choose `YOUTUBE_MCP_SCOPE_PROFILE`:
-  - `full` (default): all 43 tools
+  - `full` (default): all 46 tools
   - `upload_only`: read channel + upload videos only (no delete/comment/revenue scopes)
   - `read_only`: read-only channel and analytics
+- **Multi-Account Isolation:** Manage multiple YouTube channels/Google Cloud projects using `youtube_add_account`, `youtube_switch_account`, and `youtube_list_accounts` (each profile gets its own isolated `token.json` and `quota.json` under `~/.youtube-mcp/accounts/<name>/`).
 - **Optional Media Directory Allowlist:** Set `YOUTUBE_MCP_ALLOWED_MEDIA_DIR` to restrict video and thumbnail uploads to a specific folder.
 - **Persistent Daily Quota Tracking:** Tracks the 10,000-unit daily YouTube Data API v3 quota in `~/.youtube-mcp/quota.json` (resetting at midnight Pacific Time) so server restarts do not lose quota state.
 - **Input Validation:** Sanitizes YouTube IDs before Analytics filter queries and enforces YouTube's 2 MB limit on custom thumbnails.
@@ -135,6 +136,14 @@ Once your `client_secret.json` is in place (`~/.youtube-mcp/client_secret.json`)
 3. Call `youtube_get_channel` with `mine=True`: verifies read access to your channel.
 4. Call `youtube_upload_video` with a short test `.mp4` (it defaults to `privacy_status="private"` so nothing goes public until you publish it in YouTube Studio).
 
+### 4. Using Multiple YouTube Accounts
+
+You can register and switch between multiple channels in one server session:
+
+1. Call `youtube_add_account(account="account2", client_secret_path="/path/to/second/client_secret.json")`
+2. Call `youtube_auth` to sign in with your second Google account (tokens and daily quota are saved separately under `~/.youtube-mcp/accounts/account2/`).
+3. Call `youtube_list_accounts` to view all accounts and their remaining quota, or `youtube_switch_account(account="default")` to switch back.
+
 ---
 
 ## Environment Variables
@@ -142,7 +151,8 @@ Once your `client_secret.json` is in place (`~/.youtube-mcp/client_secret.json`)
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `YOUTUBE_MCP_CLIENT_SECRET` | `~/.youtube-mcp/client_secret.json` | Path to Google OAuth Desktop App JSON |
-| `YOUTUBE_MCP_CONFIG_DIR` | `~/.youtube-mcp` | Directory for `token.json` and `quota.json` |
+| `YOUTUBE_MCP_CONFIG_DIR` | `~/.youtube-mcp` | Directory for `token.json`, `quota.json`, and `accounts/` |
+| `YOUTUBE_MCP_ACCOUNT` | `default` | Initial active account profile (`default` or named account) |
 | `YOUTUBE_MCP_SCOPE_PROFILE` | `full` | `full`, `upload_only`, or `read_only` |
 | `YOUTUBE_MCP_ALLOWED_MEDIA_DIR` | *(unset)* | Optional folder allowlist for video/thumbnail uploads |
 | `YOUTUBE_MCP_DAILY_QUOTA` | `10000` | Daily quota limit enforced client-side |
@@ -150,9 +160,9 @@ Once your `client_secret.json` is in place (`~/.youtube-mcp/client_secret.json`)
 
 ---
 
-## Tools Reference (43 Tools)
+## Tools Reference (46 Tools)
 
-- **Auth & Status (2):** `youtube_auth`, `youtube_auth_status`
+- **Auth & Accounts (5):** `youtube_auth`, `youtube_auth_status`, `youtube_list_accounts`, `youtube_switch_account`, `youtube_add_account`
 - **Channel & Video (3):** `youtube_get_channel`, `youtube_list_videos`, `youtube_get_video`
 - **Publishing (4):** `youtube_upload_video`, `youtube_update_video`, `youtube_set_thumbnail`, `youtube_delete_video`
 - **Playlists (6):** `youtube_list_playlists`, `youtube_create_playlist`, `youtube_update_playlist`, `youtube_delete_playlist`, `youtube_add_to_playlist`, `youtube_remove_from_playlist`

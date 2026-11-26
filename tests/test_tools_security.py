@@ -11,7 +11,7 @@ from youtube_upload_mcp.server import mcp
 class TestToolAnnotations:
     def test_all_registered_tools_have_annotations(self):
         tools = asyncio.run(mcp.list_tools())
-        assert len(tools) >= 40
+        assert len(tools) >= 46
         by_name = {tool.name: tool for tool in tools}
 
         for tool in tools:
@@ -23,6 +23,7 @@ class TestToolAnnotations:
         assert by_name["youtube_remove_from_playlist"].annotations.destructiveHint is True
 
         assert by_name["youtube_get_channel"].annotations.readOnlyHint is True
+        assert by_name["youtube_list_accounts"].annotations.readOnlyHint is True
         assert by_name["youtube_analytics_overview"].annotations.readOnlyHint is True
         assert by_name["youtube_upload_video"].annotations.readOnlyHint is False
 
@@ -30,7 +31,7 @@ class TestToolAnnotations:
         with patch.object(runtime_mcp, "run"):
             ns = runpy.run_module("youtube_upload_mcp.server", run_name="__main__")
         tools = asyncio.run(ns["mcp"].list_tools())
-        assert len(tools) >= 43
+        assert len(tools) >= 46
 
 
 class TestPublishingSafety:
