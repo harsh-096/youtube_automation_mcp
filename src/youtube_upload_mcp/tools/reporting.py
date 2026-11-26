@@ -1,4 +1,4 @@
-"""YouTube Reporting API tools — bulk CSV exports with SSRF/token-leak protection."""
+"""YouTube Reporting API tools: bulk CSV exports with SSRF/token-leak protection."""
 
 import urllib.request
 

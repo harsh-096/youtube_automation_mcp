@@ -11,9 +11,9 @@ Built from the ground up with guardrails for AI-assisted channel management:
 - **Private-by-Default Publishing:** `youtube_upload_video` and `youtube_create_playlist` default to `privacy_status="private"`.
 - **SSRF & Token-Leak Protection:** `youtube_reporting_download` strictly enforces `https://*.googleapis.com` URLs (including across HTTP redirects) so OAuth Bearer tokens cannot be sent to untrusted hosts.
 - **Scoped OAuth Profiles:** Choose `YOUTUBE_MCP_SCOPE_PROFILE`:
-  - `full` (default) — all 43 tools
-  - `upload_only` — read channel + upload videos only (no delete/comment/revenue scopes)
-  - `read_only` — read-only channel and analytics
+  - `full` (default): all 43 tools
+  - `upload_only`: read channel + upload videos only (no delete/comment/revenue scopes)
+  - `read_only`: read-only channel and analytics
 - **Optional Media Directory Allowlist:** Set `YOUTUBE_MCP_ALLOWED_MEDIA_DIR` to restrict video and thumbnail uploads to a specific folder.
 - **Persistent Daily Quota Tracking:** Tracks the 10,000-unit daily YouTube Data API v3 quota in `~/.youtube-mcp/quota.json` (resetting at midnight Pacific Time) so server restarts do not lose quota state.
 - **Input Validation:** Sanitizes YouTube IDs before Analytics filter queries and enforces YouTube's 2 MB limit on custom thumbnails.
@@ -130,9 +130,9 @@ npx @modelcontextprotocol/inspector /path/to/youtube-upload-mcp/.venv/bin/youtub
 
 Once your `client_secret.json` is in place (`~/.youtube-mcp/client_secret.json`), test in this order:
 
-1. Call `youtube_auth` — opens your browser to sign in with the Google account that owns your channel and saves `~/.youtube-mcp/token.json`.
-2. Call `youtube_auth_status` — confirms authentication, active `scope_profile`, and remaining daily quota.
-3. Call `youtube_get_channel` with `mine=True` — verifies read access to your channel.
+1. Call `youtube_auth`: opens your browser to sign in with the Google account that owns your channel and saves `~/.youtube-mcp/token.json`.
+2. Call `youtube_auth_status`: confirms authentication, active `scope_profile`, and remaining daily quota.
+3. Call `youtube_get_channel` with `mine=True`: verifies read access to your channel.
 4. Call `youtube_upload_video` with a short test `.mp4` (it defaults to `privacy_status="private"` so nothing goes public until you publish it in YouTube Studio).
 
 ---

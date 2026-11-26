@@ -1,4 +1,4 @@
-"""YouTube Upload & Studio MCP Server — FastMCP entry point."""
+"""YouTube Upload & Studio MCP Server: FastMCP entry point."""
 
 import importlib
 import os

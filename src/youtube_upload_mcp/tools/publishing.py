@@ -1,4 +1,4 @@
-"""Video publishing tools — upload, update metadata, thumbnails, delete."""
+"""Video publishing tools: upload, update metadata, thumbnails, delete."""
 
 from googleapiclient.http import MediaFileUpload
 

@@ -1,4 +1,4 @@
-"""Comment tools — list, post, reply, and delete comments."""
+"""Comment tools: list, post, reply, and delete comments."""
 
 from youtube_upload_mcp.server import (
     DESTRUCTIVE_ANNOTATIONS,
